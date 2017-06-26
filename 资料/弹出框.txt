@@ -1,0 +1,37 @@
+public void showInputDailog(String tip, final String ssid) {
+        //准备好一个布局
+        View view = View.inflate(this, R.layout.input_dailog, null);
+        TextView tv_tip = (TextView) view.findViewById(R.id.tv_tip);
+        final EditText ed_ssid = (EditText) view.findViewById(R.id.ed_ssid);
+        final EditText ed_password = (EditText) view.findViewById(R.id.ed_password);
+        ed_ssid.setText(ssid);
+        ed_ssid.setSelection(ssid.length());
+        tv_tip.setText(tip);
+
+        alertDialog = new AlertDialog.Builder(this)
+                //添加一个布局
+                .setView(view)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //开始连接
+                        String password=ed_password.getText().toString().trim();
+                        if(!TextUtils.isEmpty(password)){
+                            /**连接这个wifi*/
+                            wiFiHelper.addNetworkWPA(ssid,password);
+                        }else{
+
+                        }
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        alertDialog.cancel();
+                    }
+                }).create();
+
+        alertDialog.show();
+    }
+
+}
